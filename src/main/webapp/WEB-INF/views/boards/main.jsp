@@ -34,17 +34,6 @@
 		</tbody>
 	</table>
 
-	<div style="background-color: grey;">
-		<h3>blockCount : ${pagingDto.blockCount}</h3>
-		<h3>currentBlock : ${pagingDto.currentBlock}</h3>
-		<h3>startPageNum : ${pagingDto.startPageNum}</h3>
-		<h3>lastPageNum : ${pagingDto.lastPageNum}</h3>
-		<h3>totalCount : ${pagingDto.totalCount}</h3>
-		<h3>totalPage : ${pagingDto.totalPage}</h3>
-		<h3>currentPage : ${pagingDto.currentPage}</h3>
-		<h3>isLast : ${pagingDto.last}</h3>
-		<h3>isFirst : ${pagingDto.first}</h3>
-	</div>
 
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
