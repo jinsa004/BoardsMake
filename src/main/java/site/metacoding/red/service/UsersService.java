@@ -27,6 +27,10 @@ public class UsersService {
 
 	public Users 로그인(LoginDto loginDto) { // username, password
 		Users usersPS = usersDao.findByUsername(loginDto.getUsername());
+		
+		if(usersPS == null) {
+			return null;
+		}
 		// if로 usersPS의 password와 디티오 password 비교
 		if (usersPS.getPassword().equals(loginDto.getPassword())) {
 			return usersPS;
@@ -34,13 +38,15 @@ public class UsersService {
 		return null;
 	}
 
-	public void 회원수정(Integer id, UpdateDto updateDto) {// id, 디티오(password, email)
+	public Users 회원수정(Integer id, UpdateDto updateDto) {// id, 디티오(password, email)
 		// 1. 영속화
 		Users usersPS = usersDao.findById(id);
 		// 2. 영속화된 객체 변경
 		usersPS.회원정보수정(updateDto);
 		// 3. 디비 수행
 		usersDao.update(usersPS);
+		
+		return usersPS;
 	}
 
 	@Transactional(rollbackFor = RuntimeException.class) // 런타임 중에 오류가 나면 트랜잭션을 롤백해줌.

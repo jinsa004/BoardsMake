@@ -33,7 +33,7 @@
 	let data = {
 		   username : $("#username").val(),
 		   password : $("#password").val(),
-		   email : $("#email").val(),
+		   email : $("#email").val()
 	   };
 	   
 	   $.ajax("/join",{

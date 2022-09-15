@@ -5,8 +5,7 @@
 <mapper namespace="site.metacoding.red.domain.boards.BoardsDao">
 
 	<update id="updateByUsersId">
-		UPDATE boards SET usersId = null WHERE usersId =
-		#{usersId}
+		UPDATE boards SET usersId = null WHERE usersId =#{usersId}
 	</update>
 	
 	<select id="paging"
