@@ -13,6 +13,9 @@
 			<input id="password" type="password" class="form-control" placeholder="Enter password">
 		</div>
 		<div class="mb-3">
+			<input id="isPasswordSameCheck" type="password" class="form-control" placeholder="Password check">
+		</div>
+		<div class="mb-3">
 			<input id="email" type="email" class="form-control" placeholder="Enter email">
 		</div>
 		<button id="btnJoin" type="button" class="btn btn-primary">회원가입</button>
@@ -21,19 +24,23 @@
 
 <script>
    let isUsernameSameCheck = false;
-   
    // 회원가입
    $("#btnJoin").click(()=>{
 	   if(isUsernameSameCheck == false){
-		   alert("유저네임 중복 체크를 진행해주세요");
+		   alert("유저네임 중복 체크를 진행해주세요.");
 		   return; // 밑으로 코드가 안내려가고 끝내주기 위해 return을 기입.
 	   };
-	   
 	   // 0. 통신 오브젝트 생성 (Get 요청은 body가 없다.)
 	let data = {
 		   username : $("#username").val(),
 		   password : $("#password").val(),
 		   email : $("#email").val()
+	   };
+	let passwordCheck = $("#isPasswordSameCheck").val()
+	// 비밀번호 재확인 코드
+	if(passwordCheck != data.password){
+		   alert("입력한 비밀번호가 다릅니다.");
+		   return; // 밑으로 코드가 안내려가고 끝내주기 위해 return을 기입.
 	   };
 	   
 	   $.ajax("/join",{
@@ -75,6 +82,7 @@
          }
       });
    });
+
 </script>
 
 <%@ include file="../layout/footer.jsp"%>
