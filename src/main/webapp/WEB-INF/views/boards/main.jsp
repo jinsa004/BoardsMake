@@ -22,11 +22,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="pagingDto" items="${pagingDtoList}">
+			<c:forEach var="boards" items="${pagingDto.mainDtos}">
 				<tr>
-					<td>${pagingDto.id}</td>
-					<td><a href="/boards/${pagingDto.id}">${pagingDto.title}</a></td>
-					<td>${pagingDto.username}</td>
+					<td>${boards.id}</td>
+					<td><a href="/boards/${boards.id}">${boards.title}</a></td>
+					<td>${boards.username}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
