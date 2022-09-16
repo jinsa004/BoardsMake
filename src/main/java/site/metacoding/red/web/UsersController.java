@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.UsersService;
-import site.metacoding.red.util.Script;
 import site.metacoding.red.web.dto.request.users.JoinDto;
 import site.metacoding.red.web.dto.request.users.LoginDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
@@ -41,7 +43,17 @@ public class UsersController {
 	}
 
 	@GetMapping("/loginForm")
-	public String logininForm() { // 쿠키 배워보기
+	public String logininForm(Model model, HttpServletRequest request) { // 쿠키 배워보기
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("username")) {
+				model.addAttribute(cookie.getName(), cookie.getValue());
+			}
+			System.out.println("===============");
+			System.out.println(cookie.getName());
+			System.out.println(cookie.getValue());
+			System.out.println("===============");
+		}
 		return "users/loginForm";
 	}
 
@@ -52,7 +64,21 @@ public class UsersController {
 	}
 
 	@PostMapping("/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
+	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+		System.out.println("===============");
+		System.out.println(loginDto.isRemember());
+		System.out.println("===============");
+
+		if (loginDto.isRemember() == true) {
+			Cookie cookie = new Cookie("username", loginDto.getUsername());
+			cookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(cookie);
+			// response.setHeader("Set-Cookie", "username="+loginDto.getUsername());
+		} else {
+			Cookie cookie = new Cookie("username", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
 		Users principal = usersService.로그인(loginDto);
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인실패", null);
@@ -79,7 +105,7 @@ public class UsersController {
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();
-		return new CMRespDto<>(1,"회원 탈퇴성공", null);
+		return new CMRespDto<>(1, "회원 탈퇴성공", null);
 	}
 
 	@GetMapping("/logout")
