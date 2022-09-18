@@ -34,9 +34,9 @@ public class BoardsController {
 	 */
 
 	@PutMapping("/boards/{id}")
-	public String update(@PathVariable Integer id, UpdateDto updateDto) {
-		boardsService.게시글수정하기(id, updateDto);
-		return "redirect:/boards/" + id;
+	public @ResponseBody CMRespDto<?> update (@PathVariable Integer id, @RequestBody UpdateDto updateDto)
+	{	boardsService.게시글수정하기(id, updateDto);
+		return new CMRespDto<>(1, "글수정 완료", null);
 	}
 
 	@GetMapping("/boards/{id}/updateForm")
@@ -47,20 +47,20 @@ public class BoardsController {
 	}
 
 	@DeleteMapping("/boards/{id}")
-	public String deleteBoards(@PathVariable Integer id) {
+	public @ResponseBody CMRespDto<?> deleteBoards(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
-		return "redirect:/";
+		return new CMRespDto<>(1, "삭제 성공", null);
 	}
 
 	@PostMapping("/boards")
 	public @ResponseBody CMRespDto<?> writeBoards(@RequestBody WriteDto writeDto) {
 		Users principal = (Users) session.getAttribute("principal");
 		boardsService.게시글쓰기(writeDto, principal);
-		return new CMRespDto<>(1,"성공", null);
+		return new CMRespDto<>(1, "성공", null);
 	}
 
 	@GetMapping({ "/", "/boards" })
-	public String getBoardList(Model model, Integer page, String keyword) { 
+	public String getBoardList(Model model, Integer page, String keyword) {
 		PagingDto pagingDto = boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("pagingDto", pagingDto);
 		return "boards/main";
