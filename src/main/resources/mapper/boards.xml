@@ -50,6 +50,17 @@
 		FETCH NEXT 5 ROWS ONLY
 	</select>
 
+	<select id="findByDetail"
+		resultType="site.metacoding.red.web.dto.response.boards.DetailDto">
+		SELECT
+		b.*,
+		(SELECT id FROM loves WHERE usersId = #{principalId} AND boardsId = #{boardsId}) lovesId,
+		(SELECT 1 FROM loves WHERE usersId = #{principalId} AND boardsId = #{boardsId}) isLoved,
+		(SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) loveCount
+		FROM boards b
+		WHERE b.id = #{boardsId}
+	</select>
+
 	<insert id="insert">
 		INSERT INTO boards(title, content, usersId, createdAt)
 		VALUES(#{title}, #{content}, #{usersId}, now())

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DetailDto {
-	   private Integer id;
+	   private Integer id; // boardsId
 	   private String title;
 	   private String content;
 	   private Integer usersId;
