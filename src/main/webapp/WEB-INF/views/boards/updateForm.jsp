@@ -18,6 +18,10 @@
 <script>
 	
 	$("#btnUpdate").click(()=>{
+		update();
+	});
+	
+	function update(){
 		let data = {
 				title: $("#title").val(),
 				content: $("#content").val()
@@ -33,11 +37,10 @@
 			}
 		}).done((res) => {
 			if (res.code == 1) {
-				location.href = "/";
+				location.href = "/boards/"+id;
 			};
 		});
-		
-	});
+	}
 
 	$('#content').summernote({
 		height : 400

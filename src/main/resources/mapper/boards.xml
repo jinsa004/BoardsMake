@@ -51,10 +51,8 @@
 	</select>
 
 	<insert id="insert">
-		INSERT INTO boards(title, content, usersId,
-		createdAt)
-		VALUES(#{title}, #{content}, #{usersId},
-		now())
+		INSERT INTO boards(title, content, usersId, createdAt)
+		VALUES(#{title}, #{content}, #{usersId}, now())
 	</insert>
 
 	<select id="findById"

@@ -34,16 +34,4 @@ public class PagingDto {
 		}
 	}
 
-	public void makeBlockInfo() {
-		this.keyword = null;
-		this.blockCount = 5;
-
-		this.currentBlock = currentPage / blockCount;
-		this.startPageNum = 1 + blockCount * currentBlock;
-		this.lastPageNum = 5 + blockCount * currentBlock;
-
-		if (totalPage < lastPageNum) {
-			this.lastPageNum = totalPage;
-		}
-	}
 }

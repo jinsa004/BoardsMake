@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -34,8 +37,8 @@ public class BoardsController {
 	 */
 
 	@PutMapping("/boards/{id}")
-	public @ResponseBody CMRespDto<?> update (@PathVariable Integer id, @RequestBody UpdateDto updateDto)
-	{	boardsService.게시글수정하기(id, updateDto);
+	public @ResponseBody CMRespDto<?> update (@PathVariable Integer id, @RequestBody UpdateDto updateDto){
+		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1, "글수정 완료", null);
 	}
 
@@ -63,6 +66,11 @@ public class BoardsController {
 	public String getBoardList(Model model, Integer page, String keyword) {
 		PagingDto pagingDto = boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("pagingDto", pagingDto);
+		
+		Map<String, Object> referer = new HashMap<>();
+		referer.put("page", pagingDto.getCurrentPage());
+		referer.put("keyword", pagingDto.getKeyword());
+		session.setAttribute("referer", referer);
 		return "boards/main";
 	}
 

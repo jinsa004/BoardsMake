@@ -29,7 +29,7 @@ public class BoardsService {
 		PagingDto pagingDto = boardsDao.paging(page, keyword);
 		if (boardsList.size() == 0)
 		pagingDto.setNotResult(true);
-		pagingDto.makeBlockInfo();
+		pagingDto.makeBlockInfo(keyword);
 		pagingDto.setMainDtos(boardsList);
 
 		return pagingDto;
