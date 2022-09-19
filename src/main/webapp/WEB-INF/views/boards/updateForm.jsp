@@ -5,6 +5,8 @@
 <div class="container">
 	<form>
 	<input id="id" type="hidden" value="${boards.id}" />
+	<input id="page" type="hidden" value="${sessionScope.referer.page}" />
+	<input id="keyword" type="hidden" value="${sessionScope.referer.keyword}" />
 		<div class="mb-3 mt-3">
 			<input id="title" type="text" class="form-control" placeholder="Enter title" name="title" value="${boards.title}" required="required" maxlength="50">
 		</div>
@@ -27,6 +29,8 @@
 				content: $("#content").val()
 			}
 		let id = $("#id").val()
+		let keyword = $("#keyword").val()
+		let page = $("#page").val()
 		
 		$.ajax("/boards/"+id, {
 			type: "PUT",
@@ -37,7 +41,7 @@
 			}
 		}).done((res) => {
 			if (res.code == 1) {
-				location.href = "/boards/"+id;
+				location.href = "/?page="+page+"&keyword="+keyword;
 			};
 		});
 	}
