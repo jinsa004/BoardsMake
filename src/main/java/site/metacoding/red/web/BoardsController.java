@@ -37,6 +37,12 @@ public class BoardsController {
 	 *     인증과 권한 체크는 지금 하지 마세요!!
 	 */
 	
+	@DeleteMapping("/boards/{id}/loves/{lovesId}")
+	public @ResponseBody CMRespDto<?> removeLoves(@PathVariable Integer id, @PathVariable Integer lovesId){
+		boardsService.좋아요취소(lovesId);
+		return new CMRespDto<>(1, "좋아요 취소", null);
+	}
+	
 	//'어떤 게시글'을 '누가' 좋아요 했는지?(boardsId, usersId) => usersId는 세션에 있고 boardsId는 mapping 주소창에서 받아지기 때문에 post이지만 바디가 필요가 없음.
 	@PostMapping("/boards/{id}/loves")
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id){
