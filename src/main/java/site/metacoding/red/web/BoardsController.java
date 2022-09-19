@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.boards.Boards;
+import site.metacoding.red.domain.loves.Loves;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
@@ -35,7 +36,16 @@ public class BoardsController {
 	 * 
 	 *     인증과 권한 체크는 지금 하지 마세요!!
 	 */
-
+	
+	//'어떤 게시글'을 '누가' 좋아요 했는지?(boardsId, usersId) => usersId는 세션에 있고 boardsId는 mapping 주소창에서 받아지기 때문에 post이지만 바디가 필요가 없음.
+	@PostMapping("/boards/{id}/loves")
+	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id){
+		Users principal = (Users) session.getAttribute("principal");
+		Loves loves = new Loves(principal.getId(), id);
+		boardsService.좋아요(loves);
+		return new CMRespDto<>(1, "좋아요", null);
+	}
+	
 	@PutMapping("/boards/{id}")
 	public @ResponseBody CMRespDto<?> update (@PathVariable Integer id, @RequestBody UpdateDto updateDto){
 		boardsService.게시글수정하기(id, updateDto);
@@ -44,7 +54,7 @@ public class BoardsController {
 
 	@GetMapping("/boards/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
-		Boards boardsPS = boardsService.게시글상세보기(id);
+		Boards boardsPS = boardsService.게시글수정화면데이터가져오기(id);
 		model.addAttribute("boards", boardsPS);
 		return "boards/updateForm";
 	}
@@ -76,7 +86,12 @@ public class BoardsController {
 
 	@GetMapping("/boards/{id}")
 	public String getBoardDetail(@PathVariable Integer id, Model model) {
-		model.addAttribute("boards", boardsService.게시글상세보기(id));
+		Users principal = (Users) session.getAttribute("principal");
+		if(principal == null) {
+			model.addAttribute("detailDto", boardsService.게시글상세보기(id, 0));
+		}else {
+			model.addAttribute("detailDto", boardsService.게시글상세보기(id, principal.getId()));
+		}
 		return "boards/detail";
 	}
 
