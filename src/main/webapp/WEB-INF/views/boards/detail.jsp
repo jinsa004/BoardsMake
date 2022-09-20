@@ -4,28 +4,22 @@
 <%@ include file="../layout/header.jsp"%>
 
 <input id="page" type="hidden" value="${sessionScope.referer.page}">
-<input id="keyword" type="hidden"
-	value="${sessionScope.referer.keyword}">
+<input id="keyword" type="hidden" value="${sessionScope.referer.keyword}">
 <div class="container">
-	<br /> <br /> <input id="id" type="hidden" value="${detailDto.id}" />
+	<br /> <br /> 
+	<input id="id" type="hidden" value="${detailDto.id}" />
 	<input id="lovesId" type="hidden" value="${detailDto.lovesId}" />
 	<div class="d-flex">
-
 		<a href="/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
-
 		<form>
 			<button id="btnDelete" class="btn btn-danger">삭제</button>
 		</form>
 	</div>
-
-
 	<br />
 	<div class="d-flex justify-content-between">
 		<h3>${detailDto.title}</h3>
-		<div>
-			좋아요수 : <span id="countLove">${detailDto.loveCount}</span> <i
-				id="iconLove"
-				class='${detailDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
+		<div> 좋아요수 : <span id="countLove">${detailDto.loveCount}</span> 
+		<i	id="iconLove" class='${detailDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
 		</div>
 	</div>
 	<hr />
@@ -81,7 +75,8 @@
             renderLoves();
             let count = $("#countLove").text();
             $("#countLove").text(Number(count)+1);
-            location.reload();
+            $("#lovesId").val(res.data.id);
+			console.log(res);
          }else{
             alert("좋아요 실패했습니다");
          }
@@ -101,7 +96,7 @@
 	        	renderCancelLoves();
 	            let count = $("#countLove").text();
 	            $("#countLove").text(Number(count-1));
-	            location.reload();
+				console.log(res);
 	         }else{
 	            alert("좋아요 취소에 실패했습니다");
 	         }

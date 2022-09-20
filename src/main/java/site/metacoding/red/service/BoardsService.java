@@ -24,12 +24,13 @@ public class BoardsService {
 	private final BoardsDao boardsDao;
 	private final LovesDao lovesDao;
 
-	public void 좋아요취소(Integer id) {
-		lovesDao.deleteById(id);
+	public void 좋아요취소(Integer lovesId) {
+		lovesDao.deleteById(lovesId);
 	}
 
-	public void 좋아요(Loves loves) {
+	public Loves 좋아요(Loves loves) {
 		lovesDao.insert(loves);
+		return loves;
 	}
 
 	public PagingDto 게시글목록보기(Integer page, String keyword) {
