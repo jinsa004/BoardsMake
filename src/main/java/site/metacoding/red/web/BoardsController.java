@@ -37,14 +37,16 @@ public class BoardsController {
 	 *     인증과 권한 체크는 지금 하지 마세요!!
 	 */
 	
-	@DeleteMapping("/boards/{id}/loves/{lovesId}")
+	//인증필요
+	@DeleteMapping("/s/boards/{id}/loves/{lovesId}")
 	public @ResponseBody CMRespDto<?> removeLoves(@PathVariable Integer id, @PathVariable Integer lovesId){
 		boardsService.좋아요취소(lovesId);
 		return new CMRespDto<>(1, "좋아요 취소", null);
 	}
 	
+	//인증필요
 	//'어떤 게시글'을 '누가' 좋아요 했는지?(boardsId, usersId) => usersId는 세션에 있고 boardsId는 mapping 주소창에서 받아지기 때문에 post이지만 바디가 필요가 없음.
-	@PostMapping("/boards/{id}/loves")
+	@PostMapping("/s/boards/{id}/loves")
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id){
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(principal.getId(), id);
@@ -52,26 +54,30 @@ public class BoardsController {
 		return new CMRespDto<>(1, "좋아요", loves);
 	}
 	
-	@PutMapping("/boards/{id}")
+	//인증필요
+	@PutMapping("/s/boards/{id}")
 	public @ResponseBody CMRespDto<?> update (@PathVariable Integer id, @RequestBody UpdateDto updateDto){
 		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1, "글수정 완료", null);
 	}
 
-	@GetMapping("/boards/{id}/updateForm")
+	//인증필요
+	@GetMapping("/s/boards/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Boards boardsPS = boardsService.게시글수정화면데이터가져오기(id);
 		model.addAttribute("boards", boardsPS);
 		return "boards/updateForm";
 	}
 
-	@DeleteMapping("/boards/{id}")
+	//인증필요
+	@DeleteMapping("/s/boards/{id}")
 	public @ResponseBody CMRespDto<?> deleteBoards(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
 		return new CMRespDto<>(1, "삭제 성공", null);
 	}
 
-	@PostMapping("/boards")
+	//인증필요
+	@PostMapping("/s/boards")
 	public @ResponseBody CMRespDto<?> writeBoards(@RequestBody WriteDto writeDto) {
 		Users principal = (Users) session.getAttribute("principal");
 		boardsService.게시글쓰기(writeDto, principal);
@@ -101,12 +107,9 @@ public class BoardsController {
 		return "boards/detail";
 	}
 
-	@GetMapping("/boards/writeForm")
+	//인증필요
+	@GetMapping("/s/boards/writeForm")
 	public String writeForm() {
-		Users principal = (Users) session.getAttribute("principal");
-		if (principal == null) {
-			return "redirect:/loginForm";
-		}
 		return "boards/writeForm";
 	}
 }

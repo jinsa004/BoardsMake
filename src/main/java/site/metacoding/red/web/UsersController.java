@@ -87,30 +87,33 @@ public class UsersController {
 		return new CMRespDto<>(1, "로그인성공", null);
 	}
 
-	@GetMapping("/users/{id}/updateForm")
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/loginForm";
+	}
+	
+	//인증필요
+	@GetMapping("/s/users/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users", usersPS);
 		return "users/updateForm";
 	}
-
-	@PutMapping("/users/{id}")
+	
+	//인증필요
+	@PutMapping("/s/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
 		session.setAttribute("principal", usersPS); // 수정된 회원 정보로 세션 동기화
 		return new CMRespDto<>(1, "회원수정 성공", null);
 	}
-
-	@DeleteMapping("/users/{id}")
+	
+	//인증필요
+	@DeleteMapping("/s/users/{id}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();
 		return new CMRespDto<>(1, "회원 탈퇴성공", null);
-	}
-
-	@GetMapping("/logout")
-	public String logout() {
-		session.invalidate();
-		return "redirect:/loginForm";
 	}
 }

@@ -17,34 +17,9 @@
 	</form>
 </div>
 
+<script src="/js/boards.js"></script>
+
 <script>
-	
-	$("#btnUpdate").click(()=>{
-		update();
-	});
-	
-	function update(){
-		let data = {
-				title: $("#title").val(),
-				content: $("#content").val()
-			}
-		let id = $("#id").val()
-		let keyword = $("#keyword").val()
-		let page = $("#page").val()
-		
-		$.ajax("/boards/"+id, {
-			type: "PUT",
-			dataType: "json", 
-			data: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json" 
-			}
-		}).done((res) => {
-			if (res.code == 1) {
-				location.href = "/?page="+page+"&keyword="+keyword;
-			};
-		});
-	}
 
 	$('#content').summernote({
 		height : 400

@@ -3,7 +3,6 @@ let isUsernameSameCheck = false;
 $("#btnJoin").click(() => {
 	join();
 });
-
 // 유저네임 중복 체크
 $("#btnUsernameSameCheck").click(() => {
 	checkUsername();
@@ -53,6 +52,7 @@ function join() {
 			location.href = "/loginForm";
 		};
 	});
+	
 }
 
 function checkUsername() {
@@ -61,7 +61,7 @@ function checkUsername() {
 	let username = $("#username").val();
 
 	// 2. Ajax 통신
-	$.ajax(`/users/usernameSameCheck?username= ${username}`, {
+	$.ajax(`/users/usernameSameCheck?username=${username}`, {
 		type: "GET",
 		dataType: "json",
 		async: true
@@ -106,7 +106,7 @@ function login() {
 function resign() {
 	let id = $("#id").val()
 
-	$.ajax("/users/" + id, {
+	$.ajax("/s/users/" + id, {
 		type: "DELETE",
 		dataType: "json" // 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 	}).done((res) => {
@@ -126,7 +126,7 @@ function update() {
 	};
 	let id = $("#id").val()
 
-	$.ajax("/users/" + id, {
+	$.ajax("/s/users/" + id, {
 		type: "PUT",
 		dataType: "json", // 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 		data: JSON.stringify(data), // 데이터를 보낼때 제이슨으로 바꿔주기 위해서 자바 오브젝트인 let data를 JSON.stringify를 통해 바꿔주는 행위임.
