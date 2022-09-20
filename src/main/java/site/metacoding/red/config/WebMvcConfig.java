@@ -17,3 +17,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		//실행될 로그인인터셉터가 언제 실행될 것인지를 정하는 것. /s/* => /s/boards, s/users     /s/** => /s/모든주소/모든주소/모든주소...
 	}
 }
+

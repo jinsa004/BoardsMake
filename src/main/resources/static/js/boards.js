@@ -23,7 +23,7 @@ $("#iconLove").click(() => {
 function insertLove() {
 	let id = $("#id").val();
 
-	$.ajax("/s/boards/" + id + "/loves", {
+	$.ajax("/s/api/boards/" + id + "/loves", {
 		type: "POST",
 		dataType: "json"
 	}).done((res) => {
@@ -35,6 +35,7 @@ function insertLove() {
 			console.log(res);
 		} else {
 			alert("좋아요 실패했습니다");
+			alert(res.msg);
 		}
 	});
 }
@@ -44,7 +45,7 @@ function deleteLove() {
 	let id = $("#id").val();
 	let lovesId = $("#lovesId").val();
 
-	$.ajax("/s/boards/" + id + "/loves/" + lovesId, {
+	$.ajax("/s/api/boards/" + id + "/loves/" + lovesId, {
 		type: "DELETE",
 		dataType: "json"
 	}).done((res) => {
@@ -77,7 +78,7 @@ function save() {
 		content: $("#content").val()
 	}
 
-	$.ajax("/s/boards", {
+	$.ajax("/s/api/boards", {
 		type: "POST",
 		dataType: "json", // 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 		data: JSON.stringify(data), // 데이터를 보낼때 제이슨으로 바꿔주기 위해서 자바 오브젝트인 let data를 JSON.stringify를 통해 바꿔주는 행위임.
@@ -100,7 +101,7 @@ function update() {
 	let keyword = $("#keyword").val()
 	let page = $("#page").val()
 
-	$.ajax("/s/boards/" + id, {
+	$.ajax("/s/api/boards/" + id, {
 		type: "PUT",
 		dataType: "json",
 		data: JSON.stringify(data),
@@ -120,13 +121,13 @@ function deleteById() {
 	let page = $("#page").val();
 	let keyword = $("#keyword").val();
 
-	$.ajax("/s/boards/" + id, {
+	$.ajax("/s/api/boards/" + id, {
 		type: "DELETE",
 		dataType: "json" // 응답 데이터
 	}).done((res) => {
 		if (res.code == 1) {
 			//location.href = document.referrer;
-			location.href = "/?page=" + page + "&keyword=" + keyword;  //  /?page=?&keyword=?
+			location.href = "/?page="+page+"&keyword="+keyword;  //  /?page=?&keyword=?
 		} else {
 			alert("글삭제 실패");
 		}

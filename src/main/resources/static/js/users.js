@@ -126,7 +126,7 @@ function update() {
 	};
 	let id = $("#id").val()
 
-	$.ajax("/s/users/" + id, {
+	$.ajax("/s/api/users/" + id, {
 		type: "PUT",
 		dataType: "json", // 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 		data: JSON.stringify(data), // 데이터를 보낼때 제이슨으로 바꿔주기 위해서 자바 오브젝트인 let data를 JSON.stringify를 통해 바꿔주는 행위임.

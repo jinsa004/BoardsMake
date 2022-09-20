@@ -94,7 +94,7 @@ public class UsersController {
 	}
 	
 	//인증필요
-	@GetMapping("/s/users/{id}/updateForm")
+	@GetMapping("/s/api/users/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users", usersPS);
@@ -102,7 +102,7 @@ public class UsersController {
 	}
 	
 	//인증필요
-	@PutMapping("/s/users/{id}")
+	@PutMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
 		session.setAttribute("principal", usersPS); // 수정된 회원 정보로 세션 동기화
@@ -110,7 +110,7 @@ public class UsersController {
 	}
 	
 	//인증필요
-	@DeleteMapping("/s/users/{id}")
+	@DeleteMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();
