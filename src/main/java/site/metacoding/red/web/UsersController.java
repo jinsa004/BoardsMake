@@ -4,9 +4,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,13 +62,16 @@ public class UsersController {
 	}
 
 	@PostMapping("/api/join")
-	public @ResponseBody CMRespDto<?> join(@RequestBody JoinDto joinDto) { // json을 받을때는 변수에 @requestbody를 걸어주기
+	public @ResponseBody CMRespDto<?> join(@RequestBody @Valid JoinDto joinDto, BindingResult bindingResult) { // json을 받을때는 변수에 @requestbody를 걸어주기
 		
-		//유효성검사
-		if(joinDto.getUsername().length()>20) {
-			throw new MyApiException("usename이 길어요");
+		if(bindingResult.hasErrors()) {
+			System.out.println("에러가 있습니다.");
+			FieldError fe = bindingResult.getFieldError();
+
+			throw new MyApiException(fe.getDefaultMessage());
+		}else {
+			System.out.println("에러가 없습니다.");
 		}
-		
 		usersService.회원가입(joinDto);
 		return new CMRespDto<>(1, "회원가입성공", null);
 	}
