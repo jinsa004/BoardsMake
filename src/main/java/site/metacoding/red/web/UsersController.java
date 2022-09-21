@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.handler.ex.MyApiException;
 import site.metacoding.red.service.UsersService;
 import site.metacoding.red.web.dto.request.users.JoinDto;
 import site.metacoding.red.web.dto.request.users.LoginDto;
@@ -31,7 +32,7 @@ public class UsersController {
 	private final HttpSession session;
 
 	// http://localhost:8000/users/usernameSameCheck?username=ssar
-	@GetMapping("/users/usernameSameCheck")
+	@GetMapping("/api/users/usernameSameCheck")
 	public @ResponseBody CMRespDto<Boolean> usernameSameCheck(String username) {
 		boolean isSame = usersService.유저네임중복확인(username);
 		return new CMRespDto<>(1, "성공", isSame);
@@ -57,13 +58,19 @@ public class UsersController {
 		return "users/loginForm";
 	}
 
-	@PostMapping("/join")
+	@PostMapping("/api/join")
 	public @ResponseBody CMRespDto<?> join(@RequestBody JoinDto joinDto) { // json을 받을때는 변수에 @requestbody를 걸어주기
+		
+		//유효성검사
+		if(joinDto.getUsername().length()>20) {
+			throw new MyApiException("usename이 길어요");
+		}
+		
 		usersService.회원가입(joinDto);
 		return new CMRespDto<>(1, "회원가입성공", null);
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/api/login")
 	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 		System.out.println("===============");
 		System.out.println(loginDto.isRemember());
@@ -94,7 +101,7 @@ public class UsersController {
 	}
 	
 	//인증필요
-	@GetMapping("/s/api/users/{id}/updateForm")
+	@GetMapping("/s/api/users/{id}")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users", usersPS);

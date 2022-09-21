@@ -11,7 +11,7 @@
 	<input id="lovesId" type="hidden" value="${detailDto.lovesId}" />
 	 <c:if test="${!empty sessionScope.principal}">
 	<div class="d-flex">
-		<a href="/s/api/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
+		<a href="/s/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 		<form>
 			<button id="btnDelete" class="btn btn-danger">삭제</button>
 		</form>

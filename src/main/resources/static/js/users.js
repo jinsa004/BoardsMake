@@ -40,7 +40,7 @@ function join() {
 		return; // 밑으로 코드가 안내려가고 끝내주기 위해 return을 기입.
 	};
 
-	$.ajax("/join", {
+	$.ajax("/api/join", {
 		type: "POST",
 		dataType: "json", // 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 		data: JSON.stringify(data), // 데이터를 보낼때 제이슨으로 바꿔주기 위해서 자바 오브젝트인 let data를 JSON.stringify를 통해 바꿔주는 행위임.
@@ -61,7 +61,7 @@ function checkUsername() {
 	let username = $("#username").val();
 
 	// 2. Ajax 통신
-	$.ajax(`/users/usernameSameCheck?username=${username}`, {
+	$.ajax(`/api/users/usernameSameCheck?username=${username}`, {
 		type: "GET",
 		dataType: "json",
 		async: true
@@ -87,7 +87,7 @@ function login() {
 		remember : $("#remember").prop("checked")
 	};
 
-	$.ajax("/login", {
+	$.ajax("/api/login", {
 		type: "POST",
 		dataType: "json", // 응답데이터(제이슨으로 주면 좋겠어) 데이터타입을 json으로 받을 수 있게 위의 http주소 값의 컨트롤러로 돌아가서 리턴값을 바꿔준다.
 		data: JSON.stringify(data), // 데이터를 보낼때 제이슨으로 바꿔주기 위해서 자바 오브젝트인 let data를 JSON.stringify를 통해 바꿔주는 행위임.
