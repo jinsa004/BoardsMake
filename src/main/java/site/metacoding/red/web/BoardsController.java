@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.loves.Loves;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.handler.ex.MyApiException;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
@@ -78,9 +82,19 @@ public class BoardsController {
 
 	//인증필요
 	@PostMapping("/s/api/boards")
-	public @ResponseBody CMRespDto<?> writeBoards(@RequestBody WriteDto writeDto) {
+	public @ResponseBody CMRespDto<?> writeBoards(@RequestBody @Valid WriteDto writeDto, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			System.out.println("에러가 있습니다.");
+			FieldError fe = bindingResult.getFieldError();
+
+			throw new MyApiException(fe.getDefaultMessage());
+		}else {
+			System.out.println("에러가 없습니다.");
+		}
+		
 		Users principal = (Users) session.getAttribute("principal");
 		boardsService.게시글쓰기(writeDto, principal);
+		
 		return new CMRespDto<>(1, "성공", null);
 	}
 

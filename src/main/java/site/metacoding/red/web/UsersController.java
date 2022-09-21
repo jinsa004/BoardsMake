@@ -77,11 +77,20 @@ public class UsersController {
 	}
 
 	@PostMapping("/api/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+	public @ResponseBody CMRespDto<?> login(@RequestBody @Valid LoginDto loginDto, BindingResult bindingResult, HttpServletResponse response) {
 		System.out.println("===============");
 		System.out.println(loginDto.isRemember());
 		System.out.println("===============");
 
+		if(bindingResult.hasErrors()) {
+			System.out.println("에러가 있습니다.");
+			FieldError fe = bindingResult.getFieldError();
+
+			throw new MyApiException(fe.getDefaultMessage());
+		}else {
+			System.out.println("에러가 없습니다.");
+		}
+		
 		if (loginDto.isRemember() == true) {
 			Cookie cookie = new Cookie("username", loginDto.getUsername());
 			cookie.setMaxAge(60 * 60 * 24);

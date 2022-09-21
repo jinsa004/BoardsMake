@@ -25,7 +25,7 @@ function join() {
 		alert("유저네임 중복 체크를 진행해주세요.");
 		return; // 밑으로 코드가 안내려가고 끝내주기 위해 return을 기입.
 	};
-	
+/** 
 	if(koreanCheck() == true){
 		alert("유저네임에 한글이 있으면 안됩니다.");
 		return;
@@ -45,7 +45,7 @@ function join() {
 		alert("대문자 하나를 포함해주세요.")
 		return;
 	}
-	
+*/	
 	let passwordCheck = $("#isPasswordSameCheck").val()
 	
 	// 0. 통신 오브젝트 생성 (Get 요청은 body가 없다.)
